@@ -21,10 +21,12 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     //barcharts
     gender_chart(ndx);
     show_rank_distribution_for_equipment(ndx);
+    show_rank_distribution_for_place(ndx);
 
 
     dc.renderAll();
 
+    // selector functions
     function show_gender_selector(ndx) {
         var dim = ndx.dimension(dc.pluck("Sex"))
         var group = dim.group();
@@ -61,6 +63,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .group(group);
     };
 
+    //bar char functions
     function gender_chart(ndx) {
         var dim = ndx.dimension(dc.pluck("Sex"));
         var group = dim.group();
@@ -77,7 +80,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xAxisLabel("Gender")
 
     }
-
 
     function show_rank_distribution_for_equipment(ndx) {
 
@@ -118,6 +120,59 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .stack(rankWraps)
             .stack(rankSinglePly)
             .stack(rankMultiPly)
+            .valueAccessor(function(d) {
+                if (d.value.total > 0) {
+                    return (d.value.match / d.value.total) * 100;
+                }
+                else {
+                    return 0;
+                }
+            })
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .xAxisLabel("Gender")
+            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
+            .margins({ top: 10, right: 100, bottom: 30, left: 30 });
+    }
+    
+    function show_rank_distribution_for_place(ndx) {
+
+        var dim = ndx.dimension(dc.pluck("Sex"));
+
+        function rankByPlace(dimension, place) {
+            return dimension.group().reduce(
+                function addEquipment(p, v) {
+                    p.total++;
+                    if (v.Place == place) {
+                        p.match++;
+                    }
+                    return p;
+                },
+                function removeEquipment(p, v) {
+                    p.total--;
+                    if (v.Place == place) {
+                        p.match--;
+                    }
+                    return p;
+                },
+                function initializeEquipment() {
+                    return { total: 0, match: 0 };
+                }
+            );
+        }
+
+        var firstPlace = rankByPlace(dim, "1");
+        var secondPlace = rankByPlace(dim, "2");
+        var thirdPlace = rankByPlace(dim, "2");
+     
+
+        dc.barChart("#rank-distribution-for-place")
+            .width(350)
+            .height(500)
+            .dimension(dim)
+            .group(firstPlace)
+            .stack(secondPlace)
+            .stack(thirdPlace)
             .valueAccessor(function(d) {
                 if (d.value.total > 0) {
                     return (d.value.match / d.value.total) * 100;
