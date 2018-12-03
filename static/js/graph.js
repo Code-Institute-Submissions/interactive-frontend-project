@@ -20,8 +20,11 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
     //barcharts
     gender_chart(ndx);
+    //ranked charts
     show_rank_distribution_for_equipment(ndx);
-    show_rank_distribution_for_place(ndx);
+    show_rank_distribution_for_tested(ndx);
+    show_rank_distribution_for_event(ndx);
+    rank_distribution_Meet_Country(ndx);
 
 
     dc.renderAll();
@@ -63,7 +66,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .group(group);
     };
 
-    //bar char functions
+    //bar chart functions
     function gender_chart(ndx) {
         var dim = ndx.dimension(dc.pluck("Sex"));
         var group = dim.group();
@@ -134,45 +137,43 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
             .margins({ top: 10, right: 100, bottom: 30, left: 30 });
     }
-    
-    function show_rank_distribution_for_place(ndx) {
+
+    function show_rank_distribution_for_tested(ndx) {
 
         var dim = ndx.dimension(dc.pluck("Sex"));
 
-        function rankByPlace(dimension, place) {
+        function rankByTested(dimension, tested) {
             return dimension.group().reduce(
-                function addEquipment(p, v) {
+                function(p, v) {
                     p.total++;
-                    if (v.Place == place) {
+                    if (v.Tested == tested) {
                         p.match++;
                     }
                     return p;
                 },
-                function removeEquipment(p, v) {
+                function(p, v) {
                     p.total--;
-                    if (v.Place == place) {
+                    if (v.Tested == tested) {
                         p.match--;
                     }
                     return p;
                 },
-                function initializeEquipment() {
+                function() {
                     return { total: 0, match: 0 };
                 }
             );
         }
 
-        var firstPlace = rankByPlace(dim, "1");
-        var secondPlace = rankByPlace(dim, "2");
-        var thirdPlace = rankByPlace(dim, "2");
-     
+        var testedYes = rankByTested(dim, "Yes")
+        var testedNo = rankByTested(dim, "No")
 
-        dc.barChart("#rank-distribution-for-place")
+        dc.barChart("#rank-distribution-for-tested")
             .width(350)
-            .height(500)
+            .height(250)
+            .margins({ top: 10, right: 50, bottom: 30, left: 50 })
             .dimension(dim)
-            .group(firstPlace)
-            .stack(secondPlace)
-            .stack(thirdPlace)
+            .group(testedYes)
+            .stack(testedNo)
             .valueAccessor(function(d) {
                 if (d.value.total > 0) {
                     return (d.value.match / d.value.total) * 100;
@@ -181,10 +182,119 @@ d3.csv("data/powerlifting.csv", function(error, data) {
                     return 0;
                 }
             })
+            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
+            .margins({ top: 10, right: 100, bottom: 30, left: 30 })
+            .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Gender")
-            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
-            .margins({ top: 10, right: 100, bottom: 30, left: 30 });
+            .xAxisLabel("Gender");
+
     }
+    
+    function show_rank_distribution_for_event(ndx) {
+
+        var dim = ndx.dimension(dc.pluck("Event"));
+
+        function rankByGender(dimension, Sex) {
+            return dimension.group().reduce(
+                function(p, v) {
+                    p.total++;
+                    if (v.Sex == Sex) {
+                        p.match++;
+                    }
+                    return p;
+                },
+                function(p, v) {
+                    p.total--;
+                    if (v.Sex == Sex) {
+                        p.match--;
+                    }
+                    return p;
+                },
+                function() {
+                    return { total: 0, match: 0 };
+                }
+            );
+        }
+
+        var genderF = rankByGender(dim, "F")
+        var genderM = rankByGender(dim, "M")
+
+        dc.barChart("#rank-distribution-for-event")
+            .width(350)
+            .height(250)
+            .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+            .dimension(dim)
+            .group(genderF)
+            .stack(genderM)
+            .valueAccessor(function(d) {
+                if (d.value.total > 0) {
+                    return (d.value.match / d.value.total) * 100;
+                }
+                else {
+                    return 0;
+                }
+            })
+            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
+            .margins({ top: 10, right: 100, bottom: 30, left: 30 })
+            .transitionDuration(500)
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .xAxisLabel("Event");
+
+    }
+    
+    function rank_distribution_Meet_Country(ndx) {
+
+        var dim = ndx.dimension(dc.pluck("MeetCountry"));
+
+        function rankByGender(dimension, Sex) {
+            return dimension.group().reduce(
+                function(p, v) {
+                    p.total++;
+                    if (v.Sex == Sex) {
+                        p.match++;
+                    }
+                    return p;
+                },
+                function(p, v) {
+                    p.total--;
+                    if (v.Sex == Sex) {
+                        p.match--;
+                    }
+                    return p;
+                },
+                function() {
+                    return { total: 0, match: 0 };
+                }
+            );
+        }
+
+        var genderF = rankByGender(dim, "F")
+        var genderM = rankByGender(dim, "M")
+
+        dc.barChart("#rank-distribution-for-Meet-Country")
+            .width(2000)
+            .height(250)
+            .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+            .dimension(dim)
+            .group(genderF)
+            .stack(genderM)
+            .valueAccessor(function(d) {
+                if (d.value.total > 0) {
+                    return (d.value.match / d.value.total) * 100;
+                }
+                else {
+                    return 0;
+                }
+            })
+            .margins({ top: 10, right: 100, bottom: 30, left: 30 })
+            .transitionDuration(500)
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .xAxisLabel("Meet Country");
+
+    }
+    
+    //sccatter chart functions
 });
