@@ -23,6 +23,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
     //pieChart
     pie_chart_place(ndx);
+    pie_chart_age_class(ndx)
 
 
     dc.renderAll();
@@ -338,12 +339,29 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var group_place = dim_place.group()
 
         dc.pieChart("#piechart_place")
-            .width(768)
-            .height(480)
+            .width(500)
+            .height(350)
             .slicesCap(4)
-            .innerRadius(100)
+            .innerRadius(50)
             .dimension(dim_place)
             .group(group_place)
+            .legend(dc.legend());
+
+    };
+
+    function pie_chart_age_class(ndx) {
+
+        var dim_age_class = ndx.dimension(dc.pluck("AgeClass"))
+
+        var group_age_class = dim_age_class.group()
+
+        dc.pieChart("#piechart_age_class")
+            .width(500)
+            .height(350)
+            .slicesCap(8)
+            .innerRadius(50)
+            .dimension(dim_age_class)
+            .group(group_age_class)
             .legend(dc.legend());
 
     };
