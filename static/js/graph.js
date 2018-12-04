@@ -1,22 +1,14 @@
 d3.csv("data/powerlifting.csv", function(error, data) {
     if (error) throw error
 
-    //Name,Sex,Event,Equipment,Age,Division,BodyweightKg,
-    //WeightClassKg,Squat1Kg,Squat2Kg,Squat3Kg,Squat4Kg,
-    //Best3SquatKg,Bench1Kg,Bench2Kg,Bench3Kg,Bench4Kg,
-    //Best3BenchKg,Deadlift1Kg,Deadlift2Kg,Deadlift3Kg,
-    //Deadlift4Kg,Best3DeadliftKg,TotalKg,Place,Wilks,McCulloch,
-    //Tested,AgeClass,Country,Glossbrenner,Federation,Date
-    //MeetCountry,MeetState,MeetName
-
     var ndx = crossfilter(data);
-    var all = ndx.groupAll();
 
     //created selectors
     show_gender_selector(ndx);
     show_equipment_selector(ndx);
     show_federation_selector(ndx);
     show_meet_state_selector(ndx);
+    date_selector(ndx);
 
     //barcharts
     gender_chart(ndx);
@@ -25,6 +17,12 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     show_rank_distribution_for_tested(ndx);
     show_rank_distribution_for_event(ndx);
     rank_distribution_Meet_Country(ndx);
+
+    //scatterPlot
+    //total_place(ndx);
+
+    //pieChart
+    pie_chart_place(ndx);
 
 
     dc.renderAll();
@@ -62,6 +60,15 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var group = dim.group();
 
         dc.selectMenu("#show_meet_state_selector")
+            .dimension(dim)
+            .group(group);
+    };
+
+    function date_selector(ndx) {
+        var dim = ndx.dimension(dc.pluck("Date"))
+        var group = dim.group();
+
+        dc.selectMenu("#date_selector")
             .dimension(dim)
             .group(group);
     };
@@ -190,7 +197,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xAxisLabel("Gender");
 
     }
-    
+
     function show_rank_distribution_for_event(ndx) {
 
         var dim = ndx.dimension(dc.pluck("Event"));
@@ -243,7 +250,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xAxisLabel("Event");
 
     }
-    
+
     function rank_distribution_Meet_Country(ndx) {
 
         var dim = ndx.dimension(dc.pluck("MeetCountry"));
@@ -295,6 +302,50 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xAxisLabel("Meet Country");
 
     }
-    
-    //sccatter chart functions
+
+    //scatter chart functions
+    /* NEEDS WORK function total_place(ndx) {
+
+         //get min and max date
+         var date_dim = ndx.dimension(dc.pluck("Date"));
+
+         var min_date = date_dim.bottom(1)[0].date;
+         var max_date = date_dim.top(1)[0].date;
+
+         //get place 
+         var totalPlace_dim = ndx.dimension(dc.pluck("Place"));
+         var totalPlace_group = totalPlace_dim.group()
+
+         dc.scatterPlot("#scatterPlot_place")
+             .width(1000)
+             .height(350)
+             .dimension(totalPlace_dim)
+             .group(totalPlace_group)
+             .x(d3.time.scale().domain([min_date, max_date]))
+             .brushOn(false)
+             .symbolSize(8)
+             .clipPadding(10)
+             .yAxisLabel("This is the Y Axis!");
+
+
+     }*/
+
+    //pie-chart
+    function pie_chart_place(ndx) {
+
+        var dim_place = ndx.dimension(dc.pluck("Place"))
+
+        var group_place = dim_place.group()
+
+        dc.pieChart("#piechart_place")
+            .width(768)
+            .height(480)
+            .slicesCap(4)
+            .innerRadius(100)
+            .dimension(dim_place)
+            .group(group_place)
+            .legend(dc.legend());
+
+    };
+
 });
