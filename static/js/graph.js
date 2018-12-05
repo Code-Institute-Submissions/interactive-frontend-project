@@ -22,11 +22,10 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     //total_place(ndx);
 
     //rowChart
-    age_class_row(ndx);
+    place_row_chart(ndx);
 
     //pieChart
-    pie_chart_place(ndx);
-    pie_chart_age_class(ndx)
+    pie_chart_age_class(ndx);
 
 
     dc.renderAll();
@@ -92,6 +91,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Gender")
+            .elasticY(1)
 
     }
 
@@ -145,6 +145,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Gender")
+            .elasticY(1)
             .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
             .margins({ top: 10, right: 100, bottom: 30, left: 30 });
     }
@@ -196,6 +197,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
             .margins({ top: 10, right: 100, bottom: 30, left: 30 })
             .transitionDuration(500)
+            .elasticY(1)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Gender");
@@ -249,6 +251,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
             .margins({ top: 10, right: 100, bottom: 30, left: 30 })
             .transitionDuration(500)
+            .elasticY(1)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Event");
@@ -301,9 +304,13 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             })
             .margins({ top: 10, right: 100, bottom: 30, left: 30 })
             .transitionDuration(500)
+            .elasticY(1)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Meet Country");
+            .xAxisLabel("Meet Country")
+            .elasticX(true);
+            
+            
 
     }
 
@@ -333,24 +340,21 @@ d3.csv("data/powerlifting.csv", function(error, data) {
              .xAxisLabel("This is the X Axis!");
      } */
 
-    function age_class_row(ndx) {
-
-        //get AgeClass 
-
+    function place_row_chart(ndx) {
         var place_dim = ndx.dimension(dc.pluck("Place"))
         var place_group = place_dim.group();
 
-        dc.rowChart("#row-chart-AgeClass")
+        dc.rowChart("#row-chart-place")
+            .width(700)
             .dimension(place_dim)
             .group(place_group)
             .elasticX(1)
-            .fixedBarHeight(20)
-            .cap(4)
-
+            .fixedBarHeight(25)
+            .cap(4);
     }
 
     //pie-chart
-    function pie_chart_place(ndx) {
+    /* function pie_chart_place(ndx) {
 
         var dim_place = ndx.dimension(dc.pluck("Place"))
 
@@ -365,7 +369,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .group(group_place)
             .legend(dc.legend());
 
-    };
+    }; */
 
     function pie_chart_age_class(ndx) {
 
