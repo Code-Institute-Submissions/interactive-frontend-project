@@ -19,7 +19,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     rank_distribution_Meet_Country(ndx);
 
     //scatterPlot
-    //total_place(ndx);
+    total_place(ndx);
 
     //pieChart
     pie_chart_place(ndx);
@@ -305,31 +305,30 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     }
 
     //scatter chart functions
-    /* NEEDS WORK function total_place(ndx) {
+    function total_place(ndx) {
 
-         //get min and max date
-         var date_dim = ndx.dimension(dc.pluck("Date"));
+        //get min and max date
+        var date_dim = ndx.dimension(dc.pluck("Date"));
 
-         var min_date = date_dim.bottom(1)[0].date;
-         var max_date = date_dim.top(1)[0].date;
+        var min_date = date_dim.bottom(1)[0].date;
+        var max_date = date_dim.top(1)[0].date;
 
-         //get place 
-         var totalPlace_dim = ndx.dimension(dc.pluck("Place"));
-         var totalPlace_group = totalPlace_dim.group()
+        //get place 
+        var totalPlace_dim = ndx.dimension(function(d) { return [+d.Date, +d.Place]; })
+        var totalPlace_group = totalPlace_dim.group();
 
-         dc.scatterPlot("#scatterPlot_place")
-             .width(1000)
-             .height(350)
-             .dimension(totalPlace_dim)
-             .group(totalPlace_group)
-             .x(d3.time.scale().domain([min_date, max_date]))
-             .brushOn(false)
-             .symbolSize(8)
-             .clipPadding(10)
-             .yAxisLabel("This is the Y Axis!");
-
-
-     }*/
+        dc.scatterPlot("#scatterPlot_place")
+            .width(1000)
+            .height(350)
+            .x(d3.time.scale().domain([min_date, max_date]))
+            .dimension(totalPlace_dim)
+            .group(totalPlace_group)
+            .brushOn(false)
+            .symbolSize(8)
+            .clipPadding(10)
+            .yAxisLabel("This is the Y Axis!")
+            .xAxisLabel("This is the X Axis!");
+    }
 
     //pie-chart
     function pie_chart_place(ndx) {
