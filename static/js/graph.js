@@ -37,7 +37,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.selectMenu("#show_sex_selector")
             .dimension(dim)
-            .group(group);
+            .group(group)
+            .promptText("Gender");
     };
 
     function show_equipment_selector(ndx) {
@@ -46,7 +47,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.selectMenu("#show_equipment_selector")
             .dimension(dim)
-            .group(group);
+            .group(group)
+            .promptText("Equipment");;
     };
 
     function show_federation_selector(ndx) {
@@ -55,16 +57,19 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.selectMenu("#show_federation_selector")
             .dimension(dim)
-            .group(group);
+            .group(group)
+            .promptText("Federation");;
     };
 
     function show_meet_state_selector(ndx) {
         var dim = ndx.dimension(dc.pluck("MeetState"))
-        var group = dim.group();
+        var group = dim.group()
+        
 
         dc.selectMenu("#show_meet_state_selector")
             .dimension(dim)
-            .group(group);
+            .group(group)
+            .promptText("Meet State");
     };
 
     function date_selector(ndx) {
@@ -73,7 +78,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.selectMenu("#date_selector")
             .dimension(dim)
-            .group(group);
+            .group(group)
+            .promptText("Date");;
     };
 
     //bar chart functions
@@ -106,6 +112,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var rankFemale = rankBySex(ageClass_dim, "F");
 
         dc.barChart("#age_class_gender-breakdown")
+            .height(200)
             .margins({ top: 10, right: 50, bottom: 30, left: 50 })
             .dimension(ageClass_dim)
             .group(rankMale)
@@ -167,7 +174,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.barChart("#rank-distribution-for-equipment")
             .width(350)
-            .height(500)
+            .height(200)
             .dimension(dim)
             .group(rankRaw)
             .stack(rankWraps)
@@ -224,6 +231,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var rankSquatBenchDeadlift = rankByEquipmentAndEvent(dim, "SBD");
 
         dc.barChart("#show_rank_distribution_for_equipment_and_event")
+            .height(200)
             .dimension(dim)
             .group(rankSquat)
             .stack(rankBench)
@@ -279,7 +287,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.barChart("#rank-distribution-for-tested")
             .width(350)
-            .height(250)
+            .height(200)
             .margins({ top: 10, right: 50, bottom: 30, left: 50 })
             .dimension(dim)
             .group(testedYes)
@@ -336,7 +344,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.barChart("#rank-distribution-for-event")
             .width(350)
-            .height(250)
+            .height(200)
             .margins({ top: 10, right: 50, bottom: 30, left: 50 })
             .dimension(dim)
             .group(genderF)
@@ -390,7 +398,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.barChart("#rank-distribution-for-Meet-Country")
             .width(2000)
-            .height(250)
+            .height(200)
             .margins({ top: 10, right: 50, bottom: 30, left: 50 })
             .dimension(dim)
             .group(genderF)
@@ -446,6 +454,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var place_group = place_dim.group();
 
         dc.rowChart("#row-chart-place")
+            .height(200)
             .width(700)
             .dimension(place_dim)
             .group(place_group)
@@ -480,7 +489,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.pieChart("#piechart_age_class")
             .width(500)
-            .height(350)
+            .height(400)
             .slicesCap(8)
             .innerRadius(50)
             .dimension(dim_age_class)

@@ -14,50 +14,49 @@
     <script type="text/javascript" src="static/js/graph.js"></script>
 
     <link rel="stylesheet" href="static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="static/css/style.css" type="text/css" />
 
     <title>Powerlifting Dashboard</title>
 </head>
 
 <body>
 
-    <div class="section-selectors">
-        <div class="row">
-            <div class="col-sm-1 col-md-1 col-lg-1">
-                <div>
-                    <h2>Gender</h2>
-                </div>
-                <div id="show_sex_selector"></div>
-            </div>
+    <nav class="navbar navbar-default fix-position">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="section-selectors">
+                    <div class="row">
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                            <a class="Filters" href="#">Filter Selection</a>
+                        </div>
 
-            <div class="col-sm-1 col-md-1 col-lg-1">
-                <div>
-                    <h2>Equipment</h2>
-                </div>
-                <div id="show_equipment_selector"></div>
-            </div>
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                            <div id="show_sex_selector"></div>
+                        </div>
 
-            <div class="col-sm-1 col-md-1 col-lg-1">
-                <div>
-                    <h2>Federation</h2>
-                </div>
-                <div id="show_federation_selector"></div>
-            </div>
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                            <div id="show_equipment_selector"></div>
+                        </div>
 
-            <div class="col-sm-1 col-md-1 col-lg-1">
-                <div>
-                    <h2>Meet State</h2>
-                </div>
-                <div id="show_meet_state_selector"></div>
-            </div>
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-21">
+                            <div id="show_federation_selector"></div>
+                        </div>
 
-            <div class="col-sm-1 col-md-1 col-lg-1">
-                <div>
-                    <h2>Date</h2>
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                            <div id="show_meet_state_selector"></div>
+                        </div>
+
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                            <div id="date_selector"></div>
+                        </div>
+                    </div>
                 </div>
-                <div id="date_selector"></div>
             </div>
         </div>
-    </div>
+    </nav>
+
+
+
 
     <div class="section-bar-charts">
         <h2>Shows full age class and gender breakdown</h2>

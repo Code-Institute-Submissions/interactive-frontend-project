@@ -1,4 +1,28 @@
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
+}
+
+
+
+/* Navbar */
+
+.fix-position {
+    top: 0;
+    width: 100%;
+}
+
+
+
+/* Hover Effects */
+
+/* Media Query */
+
+@media (min-width: 768px) {
+
+    .fix-position {
+        top: 0;
+        width: 100%;
+    }
 }
