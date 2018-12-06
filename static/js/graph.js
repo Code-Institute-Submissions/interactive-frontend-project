@@ -10,10 +10,10 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     show_meet_state_selector(ndx);
     date_selector(ndx);
 
-    //barcharts
-    gender_chart(ndx);
     //ranked charts
+    age_class_gender_chart(ndx);
     show_rank_distribution_for_equipment(ndx);
+    show_rank_distribution_for_equipment_and_event(ndx);
     show_rank_distribution_for_tested(ndx);
     show_rank_distribution_for_event(ndx);
     rank_distribution_Meet_Country(ndx);
@@ -77,21 +77,60 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     };
 
     //bar chart functions
-    function gender_chart(ndx) {
-        var dim = ndx.dimension(dc.pluck("Sex"));
-        var group = dim.group();
+    function age_class_gender_chart(ndx) {
+        var ageClass_dim = ndx.dimension(function(d) { if (d.AgeClass != "Unknown") { return d.AgeClass } })
 
-        dc.barChart("#gender-breakdown")
-            .width(350)
-            .height(250)
+        function rankBySex(dimension, Sex) {
+            return dimension.group().reduce(
+                function(p, v) {
+                    p.total++;
+                    if (v.Sex == Sex) {
+                        p.match++;
+                    }
+                    return p;
+                },
+                function(p, v) {
+                    p.total--;
+                    if (v.Sex == Sex) {
+                        p.match--;
+                    }
+                    return p;
+                },
+                function() {
+                    return { total: 0, match: 0 };
+                }
+            );
+        }
+
+        var rankMale = rankBySex(ageClass_dim, "M");
+        var rankFemale = rankBySex(ageClass_dim, "F");
+
+        dc.barChart("#age_class_gender-breakdown")
             .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-            .dimension(dim)
-            .group(group)
+            .dimension(ageClass_dim)
+            .group(rankMale)
+            .stack(rankFemale)
+            .valueAccessor(function(d) {
+                if (d.value.total > 0) {
+                    return (d.value.match / d.value.total) * 100;
+                }
+                else {
+                    return 0;
+                }
+            })
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Gender")
+            .xAxisLabel("Age Group")
             .elasticY(1)
+            .legend(dc.legend().x(700).y(40).itemHeight(15).gap(5).itemWidth(50)
+                .legendText(
+                    function(d) {
+                        if (d.Sex == 0) { return "Male" }
+                        else if (d.Sex == 1) { return "Female" }
+                    })
+            );
+
 
     }
 
@@ -146,7 +185,66 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Gender")
             .elasticY(1)
-            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
+            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50).legendText(function(d) { return d.Equipment }))
+            .margins({ top: 10, right: 100, bottom: 30, left: 30 });
+    }
+
+    function show_rank_distribution_for_equipment_and_event(ndx) {
+
+        var dim = ndx.dimension(dc.pluck("Equipment"));
+
+        function rankByEquipmentAndEvent(dimension, event) {
+            return dimension.group().reduce(
+                function addEquipment(p, v) {
+                    p.total++;
+                    if (v.Event == event) {
+                        p.match++;
+                    }
+                    return p;
+                },
+                function removeEquipment(p, v) {
+                    p.total--;
+                    if (v.Event == event) {
+                        p.match--;
+                    }
+                    return p;
+                },
+                function initializeEquipment() {
+                    return { total: 0, match: 0 };
+                }
+            );
+        }
+
+        var rankSquat = rankByEquipmentAndEvent(dim, "S");
+        var rankBench = rankByEquipmentAndEvent(dim, "B");
+        var rankDeadlift = rankByEquipmentAndEvent(dim, "D");
+        var rankSquatBench = rankByEquipmentAndEvent(dim, "SB");
+        var rankSquatDeadlift = rankByEquipmentAndEvent(dim, "SD");
+        var rankBenchDeadlift = rankByEquipmentAndEvent(dim, "BD");
+        var rankSquatBenchDeadlift = rankByEquipmentAndEvent(dim, "SBD");
+
+        dc.barChart("#show_rank_distribution_for_equipment_and_event")
+            .dimension(dim)
+            .group(rankSquat)
+            .stack(rankBench)
+            .stack(rankDeadlift)
+            .stack(rankSquatBench)
+            .stack(rankSquatDeadlift)
+            .stack(rankBenchDeadlift)
+            .stack(rankSquatBenchDeadlift)
+            .valueAccessor(function(d) {
+                if (d.value.total > 0) {
+                    return (d.value.match / d.value.total) * 100;
+                }
+                else {
+                    return 0;
+                }
+            })
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .xAxisLabel("Equipment")
+            .elasticY(1)
+            .legend(dc.legend().x(650).y(20).itemHeight(15).gap(5).itemWidth(50))
             .margins({ top: 10, right: 100, bottom: 30, left: 30 });
     }
 
@@ -194,7 +292,10 @@ d3.csv("data/powerlifting.csv", function(error, data) {
                     return 0;
                 }
             })
-            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
+            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50).legendText(function(d) {
+                if (d.Tested == "Yes") { return "Tested" }
+                else { return "Non-Tested" }
+            }))
             .margins({ top: 10, right: 100, bottom: 30, left: 30 })
             .transitionDuration(500)
             .elasticY(1)
@@ -309,8 +410,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Meet Country")
             .elasticX(true);
-            
-            
+
+
 
     }
 
