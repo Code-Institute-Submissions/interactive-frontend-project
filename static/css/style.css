@@ -13,7 +13,12 @@ body {
     width: 100%;
 }
 
+/* button styles */
 
+#graph-button {
+    margin: 10px 10px 10px 10px;
+    width: 230px;
+}
 
 /* Hover Effects */
 

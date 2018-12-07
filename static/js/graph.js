@@ -27,7 +27,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     //pieChart
     pie_chart_age_class(ndx);
 
-
     dc.renderAll();
 
     // selector functions
@@ -64,7 +63,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     function show_meet_state_selector(ndx) {
         var dim = ndx.dimension(dc.pluck("MeetState"))
         var group = dim.group()
-        
+
 
         dc.selectMenu("#show_meet_state_selector")
             .dimension(dim)
@@ -111,9 +110,10 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var rankMale = rankBySex(ageClass_dim, "M");
         var rankFemale = rankBySex(ageClass_dim, "F");
 
+
         dc.barChart("#age_class_gender-breakdown")
             .height(200)
-            .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+            .margins({ top: 10, right: 50, bottom: 30, left: 100 })
             .dimension(ageClass_dim)
             .group(rankMale)
             .stack(rankFemale)
@@ -130,15 +130,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Age Group")
             .elasticY(1)
-            .legend(dc.legend().x(700).y(40).itemHeight(15).gap(5).itemWidth(50)
-                .legendText(
-                    function(d) {
-                        if (d.Sex == 0) { return "Male" }
-                        else if (d.Sex == 1) { return "Female" }
-                    })
-            );
-
-
+            .legend(dc.legend().x(10).y(40).itemHeight(15).gap(5).itemWidth(50))
     }
 
     function show_rank_distribution_for_equipment(ndx) {
@@ -193,7 +185,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xAxisLabel("Gender")
             .elasticY(1)
             .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50).legendText(function(d) { return d.Equipment }))
-            .margins({ top: 10, right: 100, bottom: 30, left: 30 });
+            .margins({ top: 10, right: 50, bottom: 30, left: 100 });
     }
 
     function show_rank_distribution_for_equipment_and_event(ndx) {
@@ -252,8 +244,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Equipment")
             .elasticY(1)
-            .legend(dc.legend().x(650).y(20).itemHeight(15).gap(5).itemWidth(50))
-            .margins({ top: 10, right: 100, bottom: 30, left: 30 });
+            .legend(dc.legend().x(10).y(40).itemHeight(15).gap(5).itemWidth(50))
+            .margins({ top: 10, right: 50, bottom: 30, left: 100 });
     }
 
     function show_rank_distribution_for_tested(ndx) {
@@ -288,7 +280,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         dc.barChart("#rank-distribution-for-tested")
             .width(350)
             .height(200)
-            .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+            .margins({ top: 10, right: 50, bottom: 30, left: 100 })
             .dimension(dim)
             .group(testedYes)
             .stack(testedNo)
@@ -300,11 +292,11 @@ d3.csv("data/powerlifting.csv", function(error, data) {
                     return 0;
                 }
             })
-            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50).legendText(function(d) {
-                if (d.Tested == "Yes") { return "Tested" }
-                else { return "Non-Tested" }
-            }))
-            .margins({ top: 10, right: 100, bottom: 30, left: 30 })
+            .legend(dc.legend().x(10).y(40).itemHeight(15).gap(5).itemWidth(50)
+                .legendText(function(d) {
+                    if (d.Tested == "Yes") { return "Tested" }
+                    else if (d.Tested == "No") { return "Non-Tested" }
+                }))
             .transitionDuration(500)
             .elasticY(1)
             .x(d3.scale.ordinal())
@@ -358,7 +350,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
                 }
             })
             .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
-            .margins({ top: 10, right: 100, bottom: 30, left: 30 })
             .transitionDuration(500)
             .elasticY(1)
             .x(d3.scale.ordinal())
@@ -411,7 +402,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
                     return 0;
                 }
             })
-            .margins({ top: 10, right: 100, bottom: 30, left: 30 })
             .transitionDuration(500)
             .elasticY(1)
             .x(d3.scale.ordinal())
@@ -497,5 +487,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .legend(dc.legend());
 
     };
+
 
 });
