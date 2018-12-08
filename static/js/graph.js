@@ -1,6 +1,5 @@
 d3.csv("data/powerlifting.csv", function(error, data) {
     if (error) throw error
-
     var ndx = crossfilter(data);
 
     //created selectors
@@ -26,6 +25,9 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
     //pieChart
     pie_chart_age_class(ndx);
+
+    //bubbleChart
+    bubble_chart(ndx)
 
     dc.renderAll();
 
@@ -129,8 +131,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Age Group")
-            .elasticY(1)
-            .legend(dc.legend().x(10).y(40).itemHeight(15).gap(5).itemWidth(50))
+            .elasticY(1);
     }
 
     function show_rank_distribution_for_equipment(ndx) {
@@ -413,32 +414,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
     }
 
-    //scatter chart functions
-    /* function total_place(ndx) {
-
-         //get min and max date
-         var date_dim = ndx.dimension(dc.pluck("Date"));
-
-         var min_date = date_dim.bottom(1)[0].date;
-         var max_date = date_dim.top(1)[0].date;
-
-         //get Place 
-         var totalPlace_dim = ndx.dimension(function(d) { return [+d.Date, +d.Place]; })
-         var totalPlace_group = totalPlace_dim.group();
-
-         dc.scatterPlot("#scatterPlot_place")
-             .width(1000)
-             .height(350)
-             .x(d3.time.scale().domain([min_date, max_date]))
-             .dimension(totalPlace_dim)
-             .group(totalPlace_group)
-             .brushOn(false)
-             .symbolSize(8)
-             .clipPadding(10)
-             .yAxisLabel("This is the Y Axis!")
-             .xAxisLabel("This is the X Axis!");
-     } */
-
+    //row chart
     function place_row_chart(ndx) {
         var place_dim = ndx.dimension(dc.pluck("Place"))
         var place_group = place_dim.group();
@@ -454,39 +430,65 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     }
 
     //pie-chart
-    /* function pie_chart_place(ndx) {
-
-        var dim_place = ndx.dimension(dc.pluck("Place"))
-
-        var group_place = dim_place.group()
-
-        dc.pieChart("#piechart_place")
-            .width(500)
-            .height(350)
-            .slicesCap(4)
-            .innerRadius(50)
-            .dimension(dim_place)
-            .group(group_place)
-            .legend(dc.legend());
-
-    }; */
-
     function pie_chart_age_class(ndx) {
 
-        var dim_age_class = ndx.dimension(dc.pluck("AgeClass"))
+        var dim_age_class = ndx.dimension(function(d) { if (d.AgeClass != "Unknown") { return d.AgeClass } })
 
         var group_age_class = dim_age_class.group()
 
         dc.pieChart("#piechart_age_class")
-            .width(500)
-            .height(400)
-            .slicesCap(8)
-            .innerRadius(50)
+            .width(250)
+            .height(200)
+            .slicesCap(6)
+            .innerRadius(0)
             .dimension(dim_age_class)
             .group(group_age_class)
-            .legend(dc.legend());
+
 
     };
 
+    // bubble
+    function bubble_chart(ndx) {
 
+        var gender_dim = ndx.dimension(function(d) {
+            if (d.BodyweightKg != "" && d.WeightClassKg != "" && d.Sex !="") 
+            { return [d.Sex, d.BodyweightKg, d.WeightClassKg] };
+        });
+
+        var gender_group = gender_dim.group().reduceCount();
+
+        dc.bubbleChart("#bubbleChart")
+            .width(1200)
+            .height(400)
+            .margins({ top: 10, right: 50, bottom: 30, left: 60 })
+            .dimension(gender_dim)
+            .group(gender_group)
+            .keyAccessor(function(p) {
+                return p.key[1];
+            })
+            .valueAccessor(function(p) {
+                return p.key[2];
+            })
+            .radiusValueAccessor(function(p) {
+                return (Math.floor((p.value / 10)) + 1);
+            })
+            .x(d3.scale.linear().domain([0, 250]))
+            .y(d3.scale.linear().domain([0, 200]))
+            .r(d3.scale.linear().domain([0, 10]))
+            .minRadiusWithLabel(500)
+            .yAxisPadding(50)
+            .xAxisPadding(100)
+            .maxBubbleRelativeSize(0.07)
+            .renderHorizontalGridLines(true)
+            .renderVerticalGridLines(true)
+            .renderLabel(true)
+            .renderTitle(true)
+            .title(function(p) {
+                return p.key[0] +
+                    "\n" +
+                    "Body Weight: " + p.key[1] + " Kgs" +
+                    "Weight class: " + p.key[2] + " kgs" +
+                    "Count: " + p.value;
+            })
+    };
 });

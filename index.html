@@ -14,13 +14,13 @@
     <script type="text/javascript" src="static/js/graph.js"></script>
 
     <link rel="stylesheet" href="static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="static/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="static/css/style.css" type="text/css" />
 
     <title>Powerlifting Dashboard</title>
 </head>
 
 <body>
-
     <nav class="navbar navbar-default fix-position">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -55,59 +55,130 @@
         </div>
     </nav>
 
-
-
-
-    <div class="section-bar-charts">
+    <div class="sub-container jumbotron">
         <h2>Shows full age class and gender breakdown</h2>
-        <div class="bar-chart">
+        <div class="dc-graph">
+            <div class="legend-age-class">
+                <div class="box-male"></div><span>Male</span>
+                <div class="box-female"></div><span>Female</span>
+            </div>
             <div id="age_class_gender-breakdown"></div>
         </div>
+        <button id="graph-button" class="btn btn-default">Click for more information</button>
 
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
+    </div>
+
+    <div class="sub-container jumbotron">
         <h2>Shows gender break down for equipment</h2>
-        <div class="ranked-chart">
+        <div class="dc-graph">
             <div id="rank-distribution-for-equipment"></div>
         </div>
+        <button class="btn btn-default">Click for more information</button>
 
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
+    </div>
+
+    <div class="sub-container jumbotron">
         <h2>Break down for equipment and event</h2>
-        <div class="ranked-chart">
+        <div class="dc-graph">
             <div id="show_rank_distribution_for_equipment_and_event"></div>
         </div>
+        <button class="btn btn-default">Click for more information</button>
 
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
+    </div>
+
+    <div class="sub-container jumbotron">
         <h2>Shows gender break down for tested</h2>
-        <div class="ranked-chart">
+        <div class="dc-graph">
             <div id="rank-distribution-for-tested"></div>
         </div>
+        <button class="btn btn-default">Click for more information</button>
 
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
+    </div>
+
+    <div class="sub-container jumbotron">
         <h2>Shows gender break down for Event</h2>
-        <div class="ranked-chart">
+        <div class="dc-graph">
             <div id="rank-distribution-for-event"></div>
         </div>
+        <button class="btn btn-default">Click for more information</button>
 
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
+    </div>
+
+    <div class="sub-container jumbotron">
         <h2>Shows gender break down for Meet Country</h2>
-        <div class="ranked-chart">
+        <div class="dc-graph">
             <div id="rank-distribution-for-Meet-Country"></div>
         </div>
+        <button class="btn btn-default">Click for more information</button>
+
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
     </div>
 
-    <div class="section-row-charts">
+    <div class="sub-container jumbotron">
         <h2>Row Chart for place</h2>
-        <div class="row-chart">
+        <div class="dc-graph">
             <div id="row-chart-place"></div>
         </div>
+        <button class="btn btn-default">Click for more information</button>
+
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
     </div>
 
-    <div class="section-pie_chart">
-        <h2>pieChart-place</h2>
-        <div class="pie_chart">
-            <div id="piechart_place"></div>
-
-            <h2>pieChart-AgeClass</h2>
-            <div class="pie_chart">
-                <div id="piechart_age_class"></div>
-            </div>
+    <div class="sub-container jumbotron">
+        <h2>Pie chart showing age class breakdown for competitors</h2>
+        <div class="dc-graph">
+            <div id="piechart_age_class"></div>
         </div>
+        <button class="btn btn-default">Click for more information</button>
+
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
+    </div>
+    
+    <div class="sub-container jumbotron">
+        <h2>Bubble Chart Test</h2>
+        <div class="dc-graph">
+            <div id="bubbleChart"></div>
+        </div>
+        <button class="btn btn-default">Click for more information</button>
+
+        <blockquote>
+            <p>splash text for graph</p>
+            <small> source - <cite title="Source Title">Source Title</cite></small>
+        </blockquote>
     </div>
 </body>
+
+<script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
+<!-- <script type="text/javascript" src="static/js/script_labels.js"></script> -->
+<script type="text/javascript" src="static/js/script_buttons.js"></script>
 
 </html>
