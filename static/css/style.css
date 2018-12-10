@@ -4,20 +4,64 @@ body {
     height: 100%;
 }
 
-/* Navbar */
+/* header section */
 
-.fix-position {
+.header {
+    background-color: #2b3e50;
+    padding: 10px 10px 10px 10px;
+}
+
+.sticky {
+    position: fixed;
     top: 0;
     width: 100%;
 }
 
-/* button styles */
-
-#graph-button {
+.selector {
     margin: 10px 10px 10px 10px;
-    width: 230px;
 }
 
+.dc-select-menu {
+    width: 125px;
+}
+
+
+.section-selectors {
+    font-size: medium;
+}
+
+
+/* graphs box */
+
+.graphs {
+    margin-top: 90px;
+}
+
+/* button styles */
+
+#main-button {
+    margin: 0px 100% 0px 10px;
+}
+
+.btn-default {
+    padding: 10px 10px 10px 10px;
+    width: 150px;
+}
+
+.graph-buttons {
+    margin: 10px 10px 10px 10px;
+    width: 130px;
+    text-align: left;
+}
+
+/* footer */
+
+.footer {
+    width: 100%;
+    text-align: left;
+    background-color: #2b3e50;
+    color: #fff;
+}
 
 /* Legends */
 
@@ -194,12 +238,14 @@ body {
 
 /* Hover Effects */
 
+.btn-default:hover {
+    color: #C0C0C0;
+    transition: 0.5s;
+    -moz-transition: 0.5s;
+    -webkit-transition: 0.5s;
+
+}
+
 /* Media Query */
 
-@media (min-width: 768px) {
-
-    .fix-position {
-        top: 0;
-        width: 100%;
-    }
-}
+@media (min-width: 768px) {}

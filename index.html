@@ -10,98 +10,103 @@
     <script type="text/javascript" src="static/js/crossfilter.min.js"></script>
     <script type="text/javascript" src="static/js/dc.js"></script>
     <script type="text/javascript" src="static/js/queue.min.js"></script>
-
     <script type="text/javascript" src="static/js/graph.js"></script>
 
     <link rel="stylesheet" href="static/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="static/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="static/css/style.css" type="text/css" />
 
     <title>Powerlifting Dashboard</title>
 </head>
 
 <body>
-    <nav class="fix-position">
+    <div class="header sticky">
         <div class="container-fluid">
             <div class="navbar-header">
                 <div class="section-selectors">
                     <div class="row">
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
-                            <a class="Filters" href="#">Filter Selection</a>
-                        </div>
-
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                        <button id="main-button" type="button" class="col-sx-12 col-sm-12 col-md-12 col-lg-12 btn-default">
+                            <span id = "button-icon" class="fa fa-plus-square"></span> Filter Selection
+                        </button>
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
                             <div id="show_sex_selector"></div>
                         </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
                             <div id="show_equipment_selector"></div>
                         </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-21">
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
                             <div id="show_federation_selector"></div>
                         </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
                             <div id="show_meet_state_selector"></div>
                         </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
                             <div id="date_selector"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </nav>
-
-    <div class="sub-container jumbotron">
-        <h2>Gender and age class break down</h2>
-        <div class="dc-graph">
-            <div id="age_class_gender-breakdown"></div>
-        </div>
-        <button id="graph-button" class="btn btn-default">Click for legend</button>
-
-        <blockquote>
-            Showing Male <span><div class="box-male"></div></span> and Female <span><div class="box-female"></div></span> competitors ranked by their age class
-            <small> source - <cite title="Source Title">Source Title</cite></small>
-        </blockquote>
     </div>
 
-    <div class="sub-container jumbotron">
-        <h2>Shows gender break down for equipment used</h2>
-        <div class="dc-graph">
-            <div id="rank-distribution-for-equipment"></div>
+    <div class="graphs">
+
+        <div class="sub-container jumbotron">
+            <h2>Gender and age class break down</h2>
+            <div class="dc-graph">
+                <div id="age_class_gender-breakdown"></div>
+            </div>
+            <button class="btn btn-default graph-buttons">
+            <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
+
+            <blockquote>
+                Showing Male <span><div class="box-male"></div></span> and Female <span><div class="box-female"></div></span> competitors ranked by their age class
+                <small> source - <cite title="Source Title">Source Title</cite></small>
+            </blockquote>
         </div>
-        <button class="btn btn-default">Click for legend</button>
 
-        <blockquote>
-            Showing gender breakdown ranked by equipment used. <br><br> Raw <span><div class="box-raw"></div></span> Wraps only <span><div class="box-wraps"></div></span> Single-ply only <span><div class="box-singlePly"></div></span> Multi-ply <span><div class="box-multiPly"></div></span>
+        <div class="sub-container jumbotron">
+            <h2>Shows gender break down for equipment used</h2>
+            <div class="dc-graph">
+                <div id="rank-distribution-for-equipment"></div>
+            </div>
+            <button class="btn btn-default graph-buttons">
+            <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
 
-            <small> source - <cite title="Source Title">Source Title</cite></small>
-        </blockquote>
-    </div>
+            <blockquote>
+                Showing gender breakdown ranked by equipment used. <br><br> Raw <span><div class="box-raw"></div></span> Wraps only <span><div class="box-wraps"></div></span> Single-ply only <span><div class="box-singlePly"></div></span> Multi-ply <span><div class="box-multiPly"></div></span>
 
-    <div class="sub-container jumbotron">
-        <h2>Break down for equipment and event</h2>
-        <div class="dc-graph">
-            <div id="show_rank_distribution_for_equipment_and_event"></div>
+                <small> source - <cite title="Source Title">Source Title</cite></small>
+            </blockquote>
         </div>
-        <button class="btn btn-default">Click for legend</button>
 
-        <blockquote>
-            Showing of equipment used per event. <br><br> B - Bench press <span><div class="box-b"></div></span> <br> S - Squat <span><div class="box-s"></div></span> <br> D - Deadlift <span><div class="box-d"></div></span> <br> SB - Squat and Bench Press
-            <span><div class="box-sb"></div></span><br> SD - Squat and Deadlift <span><div class="box-sd"></div></span><br> BD - Bench Press and Deadlift <span><div class="box-bd"></div></span><br> SBD - Squat and Bench Press and Deadlift <span><div class="box-sbd"></div></span><br>
-            <small> source - <cite title="Source Title">Source Title</cite></small><br>
-        </blockquote>
-    </div>
+        <div class="sub-container jumbotron">
+            <h2>Break down for equipment and event</h2>
+            <div class="dc-graph">
+                <div id="show_rank_distribution_for_equipment_and_event"></div>
+            </div>
+            <button class="btn btn-default graph-buttons">
+            <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
 
-    <!--<div class="sub-container jumbotron">
+            <blockquote>
+                Showing of equipment used per event. <br><br> B - Bench press <span><div class="box-b"></div></span> <br> S - Squat <span><div class="box-s"></div></span> <br> D - Deadlift <span><div class="box-d"></div></span> <br> SB - Squat and Bench
+                Press
+                <span><div class="box-sb"></div></span><br> SD - Squat and Deadlift <span><div class="box-sd"></div></span><br> BD - Bench Press and Deadlift <span><div class="box-bd"></div></span><br> SBD - Squat and Bench Press and Deadlift <span><div class="box-sbd"></div></span><br>
+                <small> source - <cite title="Source Title">Source Title</cite></small><br>
+            </blockquote>
+        </div>
+
+        <!--<div class="sub-container jumbotron">
         <h2>Shows gender break down for tested</h2>
         <div class="dc-graph">
             <div id="rank-distribution-for-tested"></div>
         </div>
-        <button class="btn btn-default">Click for legend</button>
+        <button class="btn btn-default graph-buttons">
+        <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
 
         <blockquote>
             <p>splash text for graph</p>
@@ -109,75 +114,87 @@
         </blockquote>
     </div>-->
 
-    <div class="sub-container jumbotron">
-        <h2>Shows gender break down for Event</h2>
-        <div class="dc-graph">
-            <div id="rank-distribution-for-event"></div>
+        <div class="sub-container jumbotron">
+            <h2>Shows gender break down for Event</h2>
+            <div class="dc-graph">
+                <div id="rank-distribution-for-event"></div>
+            </div>
+            <button class="btn btn-default graph-buttons">
+            <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
+
+            <blockquote>
+                Showing Male <span><div class="box-male"></div></span> and Female <span><div class="box-female"></div></span> competitors for event they competed in.
+                <small> source - <cite title="Source Title">Source Title</cite></small>
+            </blockquote>
         </div>
-        <button class="btn btn-default">Click for legend</button>
 
-        <blockquote>
-            Showing Male <span><div class="box-male"></div></span> and Female <span><div class="box-female"></div></span> competitors for event they competed in.
-            <small> source - <cite title="Source Title">Source Title</cite></small>
-        </blockquote>
-    </div>
+        <div class="sub-container jumbotron">
+            <h2>Shows gender break down for Meet Country</h2>
+            <div class="dc-graph">
+                <div id="rank-distribution-for-Meet-Country"></div>
+            </div>
+            <button class="btn btn-default graph-buttons">
+            <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
 
-    <div class="sub-container jumbotron">
-        <h2>Shows gender break down for Meet Country</h2>
-        <div class="dc-graph">
-            <div id="rank-distribution-for-Meet-Country"></div>
+            <blockquote>
+                Showing Male <span><div class="box-male"></div></span> and Female <span><div class="box-female"></div></span> competitors per country.
+                <small> source - <cite title="Source Title">Source Title</cite></small><br>
+                <small> source - <cite title="Source Title">Source Title</cite></small>
+            </blockquote>
         </div>
-        <button class="btn btn-default">Click for legend</button>
 
-        <blockquote>
-            Showing Male <span><div class="box-male"></div></span> and Female <span><div class="box-female"></div></span> competitors per country.
-            <small> source - <cite title="Source Title">Source Title</cite></small><br>
-            <small> source - <cite title="Source Title">Source Title</cite></small>
-        </blockquote>
-    </div>
+        <div class="sub-container jumbotron">
+            <h2>Row Chart for place</h2>
+            <div class="dc-graph">
+                <div id="row-chart-place"></div>
+            </div>
+            <button class="btn btn-default graph-buttons">
+            <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
 
-    <div class="sub-container jumbotron">
-        <h2>Row Chart for place</h2>
-        <div class="dc-graph">
-            <div id="row-chart-place"></div>
+            <blockquote>
+                Showing what competioned placed alomg all events. <br><br> First Place <span><div class="box-firstPlace"></div></span> <br> Second Place <span><div class="box-secondPlace"></div></span> <br> Third Place <span><div class="box-thirdPlace"></div></span>                <br> Forth Place <span><div class="box-forthPlace"></div></span>
+                <small> source - <cite title="Source Title">Source Title</cite></small>
+            </blockquote>
         </div>
-        <button class="btn btn-default">Click for legend</button>
 
-        <blockquote>
-            Showing what competioned placed alomg all events. <br><br> First Place <span><div class="box-firstPlace"></div></span> <br> Second Place <span><div class="box-secondPlace"></div></span> <br> Third Place <span><div class="box-thirdPlace"></div></span>            <br> Forth Place <span><div class="box-forthPlace"></div></span>
-            <small> source - <cite title="Source Title">Source Title</cite></small>
-        </blockquote>
-    </div>
+        <div class="sub-container jumbotron">
+            <h2>Age Class chart</h2>
+            <div class="dc-graph">
+                <div id="piechart_age_class"></div>
+            </div>
+            <button class="btn btn-default graph-buttons">
+            <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
 
-    <div class="sub-container jumbotron">
-        <h2>Age Class chart</h2>
-        <div class="dc-graph">
-            <div id="piechart_age_class"></div>
+            <blockquote>
+                This is a break down off all the age groups competiting.
+                <small> source - <cite title="Source Title">Source Title</cite></small>
+            </blockquote>
         </div>
-        <button class="btn btn-default">Click for legend</button>
 
-        <blockquote>
-            This is a break down off all the age groups competiting.
-            <small> source - <cite title="Source Title">Source Title</cite></small>
-        </blockquote>
-    </div>
-
-    <!-- <div class="sub-container jumbotron">
+        <!-- <div class="sub-container jumbotron">
         <h2>Bubble Chart Test</h2>
         <div class="dc-graph">
             <div id="bubbleChart"></div>
         </div>
-        <button class="btn btn-default">Click for legend</button>
+        <button class="btn btn-default">
+        <span id = "button-icon" class="fa fa-plus-square"></span> Click for legend</button>
 
         <blockquote>
             <p>splash text for graph</p>
             <small> source - <cite title="Source Title">Source Title</cite></small>
         </blockquote>
     </div> -->
+
+    </div>
+
+    <div class="footer">
+        Data source from: <a href="https://www.openpowerlifting.org/" target="_blank">www.openpowerlifting.org</a>
+    </div>
+
+
 </body>
 
 <script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
-<!-- <script type="text/javascript" src="static/js/script_labels.js"></script> -->
-<script type="text/javascript" src="static/js/script_buttons.js"></script>
+<script type="text/javascript" src="static/js/script.js"></script>
 
 </html>
