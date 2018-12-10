@@ -28,6 +28,7 @@ body {
     background: rgb(31, 119, 180);
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
+    display: inline-block;
 }
 
 .box-female {
@@ -37,13 +38,159 @@ body {
     background: rgb(255, 127, 14);
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
+    display: inline-block;
 }
 
-.legend-age-class {
-    margin: 40px 10px 0px 10px;
-    width: 100px;
-    position: absolute;
+.box-raw {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(31, 119, 180);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
 }
+
+.box-wraps {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(255, 127, 14);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-singlePly {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(4, 160, 44);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-multiPly {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(214, 39, 40);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-b {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(255, 127, 14);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-s {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(31, 119, 180);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-d {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(44, 160, 44);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-sb {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(214, 39, 40);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-sd {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(148, 103, 189);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-bd {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(140, 86, 75);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-sbd {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(227, 119, 194);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-firstPlace {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(49, 130, 189);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-secondPlace {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(107, 174, 214);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-thirdPlace {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(158, 202, 225);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
+.box-forthPlace {
+    border: solid 1px;
+    width: 20px;
+    height: 20px;
+    background: rgb(198, 219, 239);
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+}
+
 
 /* Hover Effects */
 

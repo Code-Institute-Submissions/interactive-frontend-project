@@ -8,12 +8,13 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     show_federation_selector(ndx);
     show_meet_state_selector(ndx);
     date_selector(ndx);
+    event_selector(ndx);
 
     //ranked charts
     age_class_gender_chart(ndx);
     show_rank_distribution_for_equipment(ndx);
     show_rank_distribution_for_equipment_and_event(ndx);
-    show_rank_distribution_for_tested(ndx);
+    //show_rank_distribution_for_tested(ndx);
     show_rank_distribution_for_event(ndx);
     rank_distribution_Meet_Country(ndx);
 
@@ -27,7 +28,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     pie_chart_age_class(ndx);
 
     //bubbleChart
-    bubble_chart(ndx)
+    //bubble_chart(ndx)
 
     dc.renderAll();
 
@@ -81,6 +82,16 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .dimension(dim)
             .group(group)
             .promptText("Date");;
+    };
+
+    function event_selector(ndx) {
+        var dim = ndx.dimension(dc.pluck("Event"))
+        var group = dim.group();
+
+        dc.selectMenu("#date_selector")
+            .dimension(dim)
+            .group(group)
+            .promptText("Event");;
     };
 
     //bar chart functions
@@ -185,7 +196,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Gender")
             .elasticY(1)
-            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50).legendText(function(d) { return d.Equipment }))
             .margins({ top: 10, right: 50, bottom: 30, left: 100 });
     }
 
@@ -225,6 +235,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.barChart("#show_rank_distribution_for_equipment_and_event")
             .height(200)
+            .width(500)
             .dimension(dim)
             .group(rankSquat)
             .stack(rankBench)
@@ -243,13 +254,11 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             })
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Equipment")
             .elasticY(1)
-            .legend(dc.legend().x(10).y(40).itemHeight(15).gap(5).itemWidth(50))
             .margins({ top: 10, right: 50, bottom: 30, left: 100 });
     }
 
-    function show_rank_distribution_for_tested(ndx) {
+    /*function show_rank_distribution_for_tested(ndx) {
 
         var dim = ndx.dimension(dc.pluck("Sex"));
 
@@ -304,7 +313,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Gender");
 
-    }
+    }*/
 
     function show_rank_distribution_for_event(ndx) {
 
@@ -340,8 +349,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .height(200)
             .margins({ top: 10, right: 50, bottom: 30, left: 50 })
             .dimension(dim)
-            .group(genderF)
-            .stack(genderM)
+            .group(genderM)
+            .stack(genderF)
             .valueAccessor(function(d) {
                 if (d.value.total > 0) {
                     return (d.value.match / d.value.total) * 100;
@@ -350,7 +359,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
                     return 0;
                 }
             })
-            .legend(dc.legend().x(320).y(20).itemHeight(15).gap(5).itemWidth(50))
             .transitionDuration(500)
             .elasticY(1)
             .x(d3.scale.ordinal())
@@ -393,8 +401,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .height(200)
             .margins({ top: 10, right: 50, bottom: 30, left: 50 })
             .dimension(dim)
-            .group(genderF)
-            .stack(genderM)
+            .group(genderM)
+            .stack(genderF)
             .valueAccessor(function(d) {
                 if (d.value.total > 0) {
                     return (d.value.match / d.value.total) * 100;
@@ -437,58 +445,56 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var group_age_class = dim_age_class.group()
 
         dc.pieChart("#piechart_age_class")
-            .width(250)
-            .height(200)
-            .slicesCap(6)
-            .innerRadius(0)
+            .width(400)
+            .height(220)
+            .slicesCap(10)
+            .innerRadius(5)
             .dimension(dim_age_class)
             .group(group_age_class)
-
-
+            .legend(dc.legend());
     };
 
     // bubble
-    function bubble_chart(ndx) {
+    /* function bubble_chart(ndx) {
 
-        var gender_dim = ndx.dimension(function(d) {
-            if (d.BodyweightKg != "" && d.WeightClassKg != "" && d.Sex !="") 
-            { return [d.Sex, d.BodyweightKg, d.WeightClassKg] };
-        });
+         var b_dim = ndx.dimension(function(d) {
+             if (d.Sex != "" && d.Tested != "" && d.MeetCountry !="") { return [d.Sex, d.MeetCountry, d.Tested] };
+         });
 
-        var gender_group = gender_dim.group().reduceCount();
+         //var min_age = b_dim.top(1)[0].Age;
+         //var max_age = b_dim.bottom(1)[0].Age;
 
-        dc.bubbleChart("#bubbleChart")
-            .width(1200)
-            .height(400)
-            .margins({ top: 10, right: 50, bottom: 30, left: 60 })
-            .dimension(gender_dim)
-            .group(gender_group)
-            .keyAccessor(function(p) {
-                return p.key[1];
-            })
-            .valueAccessor(function(p) {
-                return p.key[2];
-            })
-            .radiusValueAccessor(function(p) {
-                return (Math.floor((p.value / 10)) + 1);
-            })
-            .x(d3.scale.linear().domain([0, 250]))
-            .y(d3.scale.linear().domain([0, 200]))
-            .r(d3.scale.linear().domain([0, 10]))
-            .minRadiusWithLabel(500)
-            .yAxisPadding(50)
-            .xAxisPadding(100)
-            .maxBubbleRelativeSize(0.07)
-            .renderHorizontalGridLines(true)
-            .renderVerticalGridLines(true)
-            .renderLabel(true)
-            .renderTitle(true)
-            .title(function(p) {
-                return p.key[0] +
-                    "\n" +
-                    "Body Weight: " + p.key[1] + " Kgs" +
-                    "Weight class: " + p.key[2] + " kgs" +
-                    "Count: " + p.value;
-            })
-    };
+         var b_group = b_dim.group().reduceCount();
+
+         dc.bubbleChart("#bubbleChart")
+             .width(500)
+             .height(400)
+             .margins({ top: 10, right: 50, bottom: 30, left: 60 })
+             .dimension(b_dim)
+             .group(b_group)
+             .keyAccessor(function(p) {
+                 return p.key[2];
+             })
+             .radiusValueAccessor(function(p) {
+                 return (Math.floor((p.value / 10)) + 1);
+             })
+             .x(d3.scale.linear().domain([0, 100]))
+             .y(d3.scale.linear().domain([-50, 100]))
+             .r(d3.scale.linear().domain([0, 10]))
+             .minRadiusWithLabel(1000)
+             .yAxisPadding(50)
+             .xAxisPadding(100)
+             .maxBubbleRelativeSize(0.1)
+             .renderHorizontalGridLines(true)
+             .renderVerticalGridLines(true)
+             .renderLabel(true)
+             .renderTitle(true)
+             .title(function(p) {
+                 return p.key[0] +
+                     "\n" +
+                     "Tested: " + p.key[2] + 
+                     "Country: " + p.key[1] + 
+                     "Count: " + p.value;
+             })
+     }; */
 });
