@@ -30,6 +30,9 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     //bubbleChart
     //bubble_chart(ndx)
 
+    //lineChart
+    line_chart_WeightClass(ndx);
+
     dc.renderAll();
 
     // selector functions
@@ -457,44 +460,80 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     // bubble
     /* function bubble_chart(ndx) {
 
-         var b_dim = ndx.dimension(function(d) {
-             if (d.Sex != "" && d.Tested != "" && d.MeetCountry !="") { return [d.Sex, d.MeetCountry, d.Tested] };
-         });
+        var b_dim = ndx.dimension(function(d) {
+            if (d.Sex != "" && d.Tested != "" && d.MeetCountry != "") { return [d.Sex, d.MeetCountry, d.Tested] };
+        });
 
-         //var min_age = b_dim.top(1)[0].Age;
-         //var max_age = b_dim.bottom(1)[0].Age;
+        //var min_age = b_dim.top(1)[0].Age;
+        //var max_age = b_dim.bottom(1)[0].Age;
 
-         var b_group = b_dim.group().reduceCount();
+        var b_group = b_dim.group().reduceCount();
 
-         dc.bubbleChart("#bubbleChart")
-             .width(500)
-             .height(400)
-             .margins({ top: 10, right: 50, bottom: 30, left: 60 })
-             .dimension(b_dim)
-             .group(b_group)
-             .keyAccessor(function(p) {
-                 return p.key[2];
-             })
-             .radiusValueAccessor(function(p) {
-                 return (Math.floor((p.value / 10)) + 1);
-             })
-             .x(d3.scale.linear().domain([0, 100]))
-             .y(d3.scale.linear().domain([-50, 100]))
-             .r(d3.scale.linear().domain([0, 10]))
-             .minRadiusWithLabel(1000)
-             .yAxisPadding(50)
-             .xAxisPadding(100)
-             .maxBubbleRelativeSize(0.1)
-             .renderHorizontalGridLines(true)
-             .renderVerticalGridLines(true)
-             .renderLabel(true)
-             .renderTitle(true)
-             .title(function(p) {
-                 return p.key[0] +
-                     "\n" +
-                     "Tested: " + p.key[2] + 
-                     "Country: " + p.key[1] + 
-                     "Count: " + p.value;
-             })
-     }; */
+        dc.bubbleChart("#bubbleChart")
+            .width(500)
+            .height(400)
+            .margins({ top: 10, right: 50, bottom: 30, left: 60 })
+            .dimension(b_dim)
+            .group(b_group)
+            .keyAccessor(function(p) {
+                return p.key[2];
+            })
+            .radiusValueAccessor(function(p) {
+                return (Math.floor((p.value / 10)) + 1);
+            })
+            .x(d3.scale.linear().domain([0, 100]))
+            .y(d3.scale.linear().domain([-50, 100]))
+            .r(d3.scale.linear().domain([0, 10]))
+            .minRadiusWithLabel(1000)
+            .yAxisPadding(50)
+            .xAxisPadding(100)
+            .maxBubbleRelativeSize(0.1)
+            .renderHorizontalGridLines(true)
+            .renderVerticalGridLines(true)
+            .renderLabel(true)
+            .renderTitle(true)
+            .title(function(p) {
+                return p.key[0] +
+                    "\n" +
+                    "Tested: " + p.key[2] +
+                    "Country: " + p.key[1] +
+                    "Count: " + p.value;
+            })
+    }; */
+
+    // line chart
+    function line_chart_WeightClass(ndx) {
+
+        var wDim = ndx.dimension(function(d) { return parseInt(d.WeightClassKg) });
+        
+        //get min and max values for X Axis
+        var min_weightClass = wDim.bottom(1)[0].WeightClassKg
+        var max_weightClass = wDim.top(1)[0].WeightClassKg
+
+        var weightClassKg_group = wDim.group().reduceCount();
+
+
+
+        dc.lineChart("#line_chart_WeightClass")
+            .width(700)
+            .height(300)
+            .x(d3.scale.linear().domain([min_weightClass, max_weightClass]))
+            .elasticY(1)
+            .brushOn(false)
+            .yAxisLabel("")
+            .xAxisLabel("WeightClassKg")
+            .dimension(wDim)
+            .group(weightClassKg_group)
+            .dotRadius(10)
+            .renderArea(1)
+            .renderDataPoints({ radius: 10, fillOpacity: 0.5, strokeOpacity: 0.5 })
+            .on('renderlet', function(chart) {
+                chart.selectAll('rect').on('click', function(d) {
+                    console.log('click!', d);
+                })
+            })
+            .title(function(p) {
+                return "Count: " + p.value;
+            })
+    };
 });
