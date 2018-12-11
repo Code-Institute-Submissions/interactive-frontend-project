@@ -14,7 +14,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     age_class_gender_chart(ndx);
     show_rank_distribution_for_equipment(ndx);
     show_rank_distribution_for_equipment_and_event(ndx);
-    //show_rank_distribution_for_tested(ndx);
     show_rank_distribution_for_event(ndx);
     rank_distribution_Meet_Country(ndx);
 
@@ -23,6 +22,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
     //rowChart
     place_row_chart(ndx);
+    row_chart_tested(ndx)
+    
 
     //pieChart
     pie_chart_age_class(ndx);
@@ -261,63 +262,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .margins({ top: 10, right: 50, bottom: 30, left: 100 });
     }
 
-    /*function show_rank_distribution_for_tested(ndx) {
-
-        var dim = ndx.dimension(dc.pluck("Sex"));
-
-        function rankByTested(dimension, tested) {
-            return dimension.group().reduce(
-                function(p, v) {
-                    p.total++;
-                    if (v.Tested == tested) {
-                        p.match++;
-                    }
-                    return p;
-                },
-                function(p, v) {
-                    p.total--;
-                    if (v.Tested == tested) {
-                        p.match--;
-                    }
-                    return p;
-                },
-                function() {
-                    return { total: 0, match: 0 };
-                }
-            );
-        }
-
-        var testedYes = rankByTested(dim, "Yes")
-        var testedNo = rankByTested(dim, "No")
-
-        dc.barChart("#rank-distribution-for-tested")
-            .width(350)
-            .height(200)
-            .margins({ top: 10, right: 50, bottom: 30, left: 100 })
-            .dimension(dim)
-            .group(testedYes)
-            .stack(testedNo)
-            .valueAccessor(function(d) {
-                if (d.value.total > 0) {
-                    return (d.value.match / d.value.total) * 100;
-                }
-                else {
-                    return 0;
-                }
-            })
-            .legend(dc.legend().x(10).y(40).itemHeight(15).gap(5).itemWidth(50)
-                .legendText(function(d) {
-                    if (d.Tested == "Yes") { return "Tested" }
-                    else if (d.Tested == "No") { return "Non-Tested" }
-                }))
-            .transitionDuration(500)
-            .elasticY(1)
-            .x(d3.scale.ordinal())
-            .xUnits(dc.units.ordinal)
-            .xAxisLabel("Gender");
-
-    }*/
-
     function show_rank_distribution_for_event(ndx) {
 
         var dim = ndx.dimension(dc.pluck("Event"));
@@ -426,6 +370,21 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     }
 
     //row chart
+    function row_chart_tested(ndx) {
+
+        var tDim = ndx.dimension(dc.pluck("Tested"));
+        var tested_group = tDim.group();
+
+        dc.rowChart("#row_chart_tested")
+            .height(110)
+            .width(370)
+            .dimension(tDim)
+            .group(tested_group)
+            .elasticX(1)
+            .fixedBarHeight(25)
+            .cap(2);
+    }
+    
     function place_row_chart(ndx) {
         var place_dim = ndx.dimension(dc.pluck("Place"))
         var place_group = place_dim.group();
@@ -505,14 +464,12 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     function line_chart_WeightClass(ndx) {
 
         var wDim = ndx.dimension(function(d) { return parseInt(d.WeightClassKg) });
-        
+
         //get min and max values for X Axis
         var min_weightClass = wDim.bottom(1)[0].WeightClassKg
         var max_weightClass = wDim.top(1)[0].WeightClassKg
 
         var weightClassKg_group = wDim.group().reduceCount();
-
-
 
         dc.lineChart("#line_chart_WeightClass")
             .width(700)
