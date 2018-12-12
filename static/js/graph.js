@@ -17,19 +17,14 @@ d3.csv("data/powerlifting.csv", function(error, data) {
     show_rank_distribution_for_event(ndx);
     rank_distribution_Meet_Country(ndx);
 
-    //scatterPlot
-    //total_place(ndx);
-
     //rowChart
     place_row_chart(ndx);
     row_chart_tested(ndx)
-    
+
 
     //pieChart
     pie_chart_age_class(ndx);
 
-    //bubbleChart
-    //bubble_chart(ndx)
 
     //lineChart
     line_chart_WeightClass(ndx);
@@ -130,7 +125,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.barChart("#age_class_gender-breakdown")
             .height(200)
-            .margins({ top: 10, right: 50, bottom: 30, left: 100 })
+            .width(700)
+            .margins({ top: 10, right: 50, bottom: 30, left: 40 })
             .dimension(ageClass_dim)
             .group(rankMale)
             .stack(rankFemale)
@@ -146,7 +142,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Age Group")
-            .elasticY(1);
+            .elasticY(1)
+            .elasticX(1);
     }
 
     function show_rank_distribution_for_equipment(ndx) {
@@ -200,7 +197,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Gender")
             .elasticY(1)
-            .margins({ top: 10, right: 50, bottom: 30, left: 100 });
+            .margins({ top: 10, right: 50, bottom: 30, left: 40 });
     }
 
     function show_rank_distribution_for_equipment_and_event(ndx) {
@@ -239,7 +236,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.barChart("#show_rank_distribution_for_equipment_and_event")
             .height(200)
-            .width(500)
+            .width(350)
             .dimension(dim)
             .group(rankSquat)
             .stack(rankBench)
@@ -259,7 +256,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .elasticY(1)
-            .margins({ top: 10, right: 50, bottom: 30, left: 100 });
+            .margins({ top: 10, right: 50, bottom: 30, left: 40 });
     }
 
     function show_rank_distribution_for_event(ndx) {
@@ -294,7 +291,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         dc.barChart("#rank-distribution-for-event")
             .width(350)
             .height(200)
-            .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+            .margins({ top: 10, right: 50, bottom: 30, left: 40 })
             .dimension(dim)
             .group(genderM)
             .stack(genderF)
@@ -344,9 +341,9 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var genderM = rankByGender(dim, "M")
 
         dc.barChart("#rank-distribution-for-Meet-Country")
-            .width(2000)
+            .width(700)
             .height(200)
-            .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+            .margins({ top: 10, right: 50, bottom: 30, left: 40 })
             .dimension(dim)
             .group(genderM)
             .stack(genderF)
@@ -376,22 +373,22 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var tested_group = tDim.group();
 
         dc.rowChart("#row_chart_tested")
-            .height(110)
-            .width(370)
+            .height(200)
+            .width(350)
             .dimension(tDim)
             .group(tested_group)
             .elasticX(1)
             .fixedBarHeight(25)
             .cap(2);
     }
-    
+
     function place_row_chart(ndx) {
         var place_dim = ndx.dimension(dc.pluck("Place"))
         var place_group = place_dim.group();
 
         dc.rowChart("#row-chart-place")
             .height(200)
-            .width(700)
+            .width(350)
             .dimension(place_dim)
             .group(place_group)
             .elasticX(1)
@@ -407,7 +404,7 @@ d3.csv("data/powerlifting.csv", function(error, data) {
         var group_age_class = dim_age_class.group()
 
         dc.pieChart("#piechart_age_class")
-            .width(400)
+            .width(350)
             .height(220)
             .slicesCap(10)
             .innerRadius(5)
@@ -415,50 +412,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .group(group_age_class)
             .legend(dc.legend());
     };
-
-    // bubble
-    /* function bubble_chart(ndx) {
-
-        var b_dim = ndx.dimension(function(d) {
-            if (d.Sex != "" && d.Tested != "" && d.MeetCountry != "") { return [d.Sex, d.MeetCountry, d.Tested] };
-        });
-
-        //var min_age = b_dim.top(1)[0].Age;
-        //var max_age = b_dim.bottom(1)[0].Age;
-
-        var b_group = b_dim.group().reduceCount();
-
-        dc.bubbleChart("#bubbleChart")
-            .width(500)
-            .height(400)
-            .margins({ top: 10, right: 50, bottom: 30, left: 60 })
-            .dimension(b_dim)
-            .group(b_group)
-            .keyAccessor(function(p) {
-                return p.key[2];
-            })
-            .radiusValueAccessor(function(p) {
-                return (Math.floor((p.value / 10)) + 1);
-            })
-            .x(d3.scale.linear().domain([0, 100]))
-            .y(d3.scale.linear().domain([-50, 100]))
-            .r(d3.scale.linear().domain([0, 10]))
-            .minRadiusWithLabel(1000)
-            .yAxisPadding(50)
-            .xAxisPadding(100)
-            .maxBubbleRelativeSize(0.1)
-            .renderHorizontalGridLines(true)
-            .renderVerticalGridLines(true)
-            .renderLabel(true)
-            .renderTitle(true)
-            .title(function(p) {
-                return p.key[0] +
-                    "\n" +
-                    "Tested: " + p.key[2] +
-                    "Country: " + p.key[1] +
-                    "Count: " + p.value;
-            })
-    }; */
 
     // line chart
     function line_chart_WeightClass(ndx) {
@@ -473,12 +426,11 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.lineChart("#line_chart_WeightClass")
             .width(700)
-            .height(300)
+            .height(200)
             .x(d3.scale.linear().domain([min_weightClass, max_weightClass]))
             .elasticY(1)
             .brushOn(false)
-            .yAxisLabel("")
-            .xAxisLabel("WeightClassKg")
+            .xAxisLabel("Weight Class in Kgs")
             .dimension(wDim)
             .group(weightClassKg_group)
             .dotRadius(10)
@@ -492,5 +444,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .title(function(p) {
                 return "Count: " + p.value;
             })
+            .margins({ top: 10, right: 50, bottom: 30, left: 40 })
     };
 });
