@@ -16,6 +16,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1;
 }
 
 .selector {
@@ -36,6 +37,18 @@ body {
 
 .graphs {
     margin-top: 90px;
+}
+
+
+/* containers */
+
+.sub-container {
+    min-height: 450px;
+    text-align: center;
+}
+
+blockquote {
+    text-align: left;
 }
 
 /* button styles */
