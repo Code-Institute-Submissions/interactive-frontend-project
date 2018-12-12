@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+
 html,
 body {
     width: 100%;
     height: 100%;
     background-color: #2b3e50;
+    font-family: Oswald;
 }
 
 /* header section */
@@ -21,6 +25,7 @@ body {
 
 .selector {
     margin: 10px 10px 10px 10px;
+    display: inline-block;
 }
 
 .dc-select-menu {

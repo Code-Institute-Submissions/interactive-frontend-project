@@ -141,7 +141,6 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Age Group")
             .elasticY(1)
             .elasticX(1);
     }
@@ -378,7 +377,8 @@ d3.csv("data/powerlifting.csv", function(error, data) {
             .dimension(tDim)
             .group(tested_group)
             .elasticX(1)
-            .fixedBarHeight(25)
+            .fixedBarHeight(60)
+            .gap(15)
             .cap(2);
     }
 
@@ -388,12 +388,11 @@ d3.csv("data/powerlifting.csv", function(error, data) {
 
         dc.rowChart("#row-chart-place")
             .height(200)
-            .width(350)
+            .width(550)
             .dimension(place_dim)
             .group(place_group)
             .elasticX(1)
-            .fixedBarHeight(25)
-            .cap(4);
+            .cap(6);
     }
 
     //pie-chart
