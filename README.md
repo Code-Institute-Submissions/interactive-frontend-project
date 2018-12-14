@@ -5,7 +5,7 @@ All graphs are interactive and update with new filters on the fly.
  
 ## UX
 
-Taken a single page approach with all the information flowing down the page.
+As per the guidlines this is a  Single-Page Application (SPA) with all the information flowing down the page.
 
 The original design have some text to the right of each chart but it through the flow of the page off.  
 On the redesign the flow was better, with everything under each other in hidden boxes and some accordion buttons.
@@ -13,9 +13,9 @@ The header that the top will be fixed and flow down the pages allowing a user to
 
 The user story behind the pages is 
 AS a user
-WHEN i view a chart
-AND i change a fiter
-THEN i the data in the charts will update
+WHEN I view a chart
+AND I change a fiter
+THEN I the data in the charts will update
 
 The page is running off bootstrap with some minor alterations to some boxes and using jQuery foor the button behaviours.
 
@@ -26,9 +26,10 @@ Wireframes available in ./static/wireframes/
 Fixed header with filters.
 Interactive charts with onClick behaviour with in the chart.
 
+## Future Features
 
-In this section, you should go over the different parts of your project, and describe each in a sentence or so.
- 
+Build automation into project
+
 ## Technologies Used
 
 - HTML and CSS
@@ -51,34 +52,102 @@ In this section, you should go over the different parts of your project, and des
 
 ## Testing
 
-In this section, you need to convince the assessor that you have conducted enough testing to legitimately believe that the site works well. Essentially, in this part you will want to go over all of your user stories from the UX section and ensure that they all work as intended, with the project providing an easy and straightforward way for the users to achieve their goals.
+For now, I have buult some manual test using Cucumber (https://docs.cucumber.io/).  This will be expanded later in an automation project.
 
-Whenever it is feasible, prefer to automate your tests, and if you've done so, provide a brief explanation of your approach, link to the test file(s) and explain how to run them.
 
-For any scenarios that have not been automated, test the user stories manually and provide as much detail as is relevant. A particularly useful form for describing your testing process is via scenarios, such as:
+Feature: Applying filters in headers
 
-1. Contact form:
-    1. Go to the "Contact Us" page
-    2. Try to submit the empty form and verify that an error message about the required fields appears
-    3. Try to submit the form with an invalid email address and verify that a relevant error message appears
-    4. Try to submit the form with all inputs valid and verify that a success message appears.
+Description: We want to make sure charts update correctly when we use the fiters in the header.
 
-In addition, you should mention in this section how your project looks and works on different browsers and screen sizes.
+Scenario: A01-Using the Filter Selector button
+    Given I am a user on the dashbaord page 
+    When I click on the Filter Selector button
+    Then I will see the filters appear
+	
+Scenario: A02-Using the Filter Selector button
+    Given I am a user on the dashbaord page 
+    When I select a [FILTER] in the headers
+    Then I will see all the charts update 
+	
+[FILTER]
+Gender
+Equipment
+Feberation
+Meet State
+Event
 
-You should also mention in this section any interesting bugs or problems you discovered during your testing, even if you haven't addressed them yet.
+Feature: Interactive Charts
 
-If this section grows too long, you may want to split it off into a separate file and link to it from here.
+Description: We want to make sure charts are interactive
+
+Scenario: B01-Interactive Charts
+    Given I am a user on the dashbaord page 
+    When on an [AgeClass] on the [Chart] chart
+    Then I will this this chart update
+	And I will see all the other charts update
+
+[Chart]
+[Gender / Age Class]
+[Equipment used by competitors]
+[Equipment used per event]
+[Shows gender break down for Event]
+
+[Chart]-[Filter]
+[Gender / Age Class]-[AgeClass]
+13-15
+16-17
+18-19
+20-23
+24-34
+35-39
+40-44
+45-49
+50-54
+55-59
+60-64
+65-69
+70-75
+80-99
+
+[Equipment used by competitors]-[Equipment]
+Raw
+Wraps only
+Single-ply only
+Multi-ply
+
+[Equipment used per event]-[Event]
+[Shows gender break down for Event]-[Event]
+B - Bench press
+S - Squat
+D - Deadlift
+SB - Squat and Bench Press
+SD - Squat and Deadlift
+BD - Bench Press and Deadlift
+SBD - Squat and Bench Press and Deadlift
+
+
+Feature: Legend Buttons
+
+Description: We want to make sure the lengen are working
+
+Scenario: C01-hidden legends
+    Given I am a user on the dashbaord page 
+    When I am on the Dashboard
+    Then All the legends will be hiden
+
+Scenario: C01-show legends
+    Given I am a user on the dashbaord page 
+    When I am on the Dashboard
+	And I click on a Click for legend button
+    Then I will see the legend appear underneath
+
 
 ## Deployment
 
-This section should describe the process you went through to deploy the project to a hosting platform (e.g. GitHub Pages or Heroku).
+Page deployed on gitHub.  
+No dependencies needed to view the page.
 
-In particular, you should provide all details of the differences between the deployed version and the development version, if any, including:
-- Different values for environment variables (Heroku Config Vars)?
-- Different configuration files?
-- Separate git branch?
-
-In addition, if it is not obvious, you should also describe how to run your code locally.
+To run the code locally, download entire directory and open index.html.
 
 
 ## Credits
