@@ -25,33 +25,40 @@
             <div class="navbar-header">
                 <div class="section-selectors">
                     <div class="row">
-                        <button id="main-button" type="button" class="col-sx-12 col-sm-12 col-md-12 col-lg-12 btn-default">
-                            <span class="fa fa-plus-square"></span> Filter Selection
+                        <div class="row">
+                            <button id="main-button" type="button" class="col-sx-12 col-sm-12 col-md-12 col-lg-6 btn-default">Filter Selector
                         </button>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
-                            <div id="show_sex_selector"></div>
+                            <a id="reset-data" href="javascript:dc.filterAll(); dc.renderAll();" class="col-sx-12 col-sm-12 col-md-6 col-lg-12 btn-default">Reset All</a>
                         </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
-                            <div id="show_equipment_selector"></div>
-                        </div>
+                        <div id="selectors" class="row">
+                            <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
+                                <div id="show_sex_selector"></div>
+                            </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
-                            <div id="show_federation_selector"></div>
-                        </div>
+                            <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
+                                <div id="show_equipment_selector"></div>
+                            </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
-                            <div id="show_meet_state_selector"></div>
-                        </div>
+                            <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
+                                <div id="show_federation_selector"></div>
+                            </div>
 
-                        <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
-                            <div id="date_selector"></div>
+                            <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
+                                <div id="show_meet_state_selector"></div>
+                            </div>
+
+                            <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2 selector">
+                                <div id="date_selector"></div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <div class="graphs">

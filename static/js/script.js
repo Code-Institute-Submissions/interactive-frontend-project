@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
 
-    $(".btn-default").parent().children("blockquote").hide();
+    $("#selectors").hide();
+    $("blockquote").hide();
 
     $(".btn-default").click(function() {
         $(this).parent().children("blockquote").slideToggle("Slow");
@@ -11,11 +12,8 @@ $(document).ready(function() {
         $(this).toggleClass("btn-default disabled");
     });
 
-
-    $(".btn-default").parent().children(".selector").hide();
-
     $("#main-button").click(function() {
-        $(this).parent().children(".selector").slideToggle("Slow");
+        $(this).parent().siblings("#selectors").slideToggle("Slow");
 
     });
 

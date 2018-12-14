@@ -59,9 +59,13 @@ blockquote {
 /* button styles */
 
 #main-button {
-    margin: 0px 100% 0px 10px;
+    margin: 10px 40px 0px 10px;
 }
 
+#reset-data {
+    margin: 10px 10px 0px 10px;
+    text-align: center;
+}
 .btn-default {
     padding: 10px 10px 10px 10px;
     width: 150px;
